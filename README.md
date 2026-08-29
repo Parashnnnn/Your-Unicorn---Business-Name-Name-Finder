@@ -29,6 +29,9 @@ An AI-powered business name and domain finder that helps entrepreneurs discover 
 
 ## License
 
+View Site 
+https://yourunicornai.netlify.app/
+
 This project is licensed under the MIT License.
 
 ---
