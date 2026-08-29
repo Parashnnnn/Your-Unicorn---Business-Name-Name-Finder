@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. User Profiles - Restricted access to own identity Node
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // 3. Saved Brands - Must be owned by the user
+    match /saved_brands/{savedBrandId} {
+      allow read, update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+    }
+
+    // 4. Favorite Domains
+    match /favorite_domains/{favoriteDomainId} {
+      allow read, delete: if request.auth != null;
+      allow create: if request.auth != null;
+    }
+
+    // 5. Naming Searches Timeline
+    match /search_history/{searchHistoryId} {
+      allow read, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+    }
+  }
+}

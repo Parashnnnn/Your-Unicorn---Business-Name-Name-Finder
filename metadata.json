@@ -1,0 +1,6 @@
+{
+  "name": "Your Unicorn",
+  "description": "Describe your business idea and let AI generate business names, available domains, slogans, logo concepts, and brand identities instantly.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

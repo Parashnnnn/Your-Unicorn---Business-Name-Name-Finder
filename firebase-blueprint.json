@@ -1,0 +1,76 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account schema storing credentials and SaaS tier parameters.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "plan": { "type": "string", "enum": ["Free", "Pro", "Enterprise"] },
+        "searchesToday": { "type": "integer" },
+        "maxSearchesPerDay": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "displayName", "plan", "searchesToday", "maxSearchesPerDay", "createdAt"]
+    },
+    "SavedBrand": {
+      "title": "SavedBrand",
+      "description": "A startup brand proposal saved by a particular user.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "brand": { "type": "object" },
+        "savedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "brand", "savedAt"]
+    },
+    "FavoriteDomain": {
+      "title": "FavoriteDomain",
+      "description": "A favorite internet domain name saved by a user.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "domain": { "type": "string" },
+        "ext": { "type": "string" },
+        "brandId": { "type": "string" },
+        "brandName": { "type": "string" },
+        "savedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "domain", "ext", "savedAt"]
+    },
+    "SearchHistoryItem": {
+      "title": "SearchHistoryItem",
+      "description": "A previous naming and generation search query logged per user.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "query": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "brandId": { "type": "string" }
+      },
+      "required": ["id", "userId", "query", "createdAt", "brandId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Holds settings, limits, and plans for separate user nodes."
+    },
+    "/saved_brands/{savedBrandId}": {
+      "schema": "SavedBrand",
+      "description": "Holds the generated brand packages saved by the users."
+    },
+    "/favorite_domains/{favoriteDomainId}": {
+      "schema": "FavoriteDomain",
+      "description": "Holds saved domains for quick tracking."
+    },
+    "/search_history/{searchHistoryId}": {
+      "schema": "SearchHistoryItem",
+      "description": "Keeps a continuous timeline of users searches."
+    }
+  }
+}
